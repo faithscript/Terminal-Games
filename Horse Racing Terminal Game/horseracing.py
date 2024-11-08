@@ -1,3 +1,4 @@
+# Run this file with xterm compatible compilers like VScode, Pycharm, and so on, for a better user experience.
 import random
 import time
 
