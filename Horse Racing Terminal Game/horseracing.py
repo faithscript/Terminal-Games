@@ -26,6 +26,7 @@ def game_intro():
     """
     Introduces the game with a welcome message and race description.
     Uses a delay for dramatic effect.
+    Uses ANSI escape codes to bold texts for a better user experience
     """
     print('\033[1mWelcome to the Ultimate Horse Race! 🏇🎉')
     time.sleep(1.25)
