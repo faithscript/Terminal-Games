@@ -54,6 +54,45 @@ def display_players_and_odds(horse_list, horse_odds):
         print(f'{horse}: {odds}')
         time.sleep(1)
 
+def check_choice_and_run():
+    '''
+    Prompts the player to choose whether to bet or not, validates it, and runs the game
+    This is a function to be looped around using the return keyword (Done to avoid a while True loop)
+    '''
+    user_choice = input('Would you like to bet? Type Yes to bet 💸, and No to just watch the game 🎬. (Type Yes or No): ').lower()
+    if user_choice == 'yes':
+        bet, horse = bet_placing()
+        winners = show_horserace(RACECOURSE_DISTANCE, HORSE_DISTANCE)
+        show_winning_horse(winners)
+        if horse in winners:
+            print(f'\033[1mCONGRATULATIONS!!! 🎉 {horse} WON THE RACE 🏆🎉')
+            odds = HORSE_ODDS[horse]
+            payout = bet * odds
+            print(f'You won ${payout} 💰💸')
+        else:
+            print(f'''Unfortunately {horse} did not win, and you lost your money. 😞💸
+                  ''')
+            time.sleep(1)
+            print('''Hope you enjoyed the race though 😊😊😊
+                  ''')
+        restart_or_quit = input('''Click ENTER to restart 🔄, or any other key to end the game ⛔: 
+''')
+        return restart_or_quit
+    elif user_choice == 'no':
+        time.sleep(1)
+        print('''You chose to watch the race without betting. 👀
+              ''')
+        time.sleep(1)
+        winners = show_horserace(RACECOURSE_DISTANCE, HORSE_DISTANCE)
+        show_winning_horse(winners)
+        print("Thanks for watching the race! 🎥")
+        restart_or_quit = input('Click ENTER to restart 🔄, or any other key to end the game ⛔: ')
+        return restart_or_quit
+    else:
+        print("Invalid input! Please try again. ❌")
+        return check_choice_and_run()
+    
+
 def bet_placing():
     """
     Prompts the player to place a bet within the allowed range.
@@ -78,7 +117,7 @@ def bet_placing():
               ''')
         horse = input('Which Horse will you be betting on? 🐎: ')
     print(f'''\033[1mExcellent! 🎉\033[0m
-You have bet ${bet} 💵 on {horse} 🏇
+You have bet ${bet:.2f} 💵 on {horse} 🏇
            ''')
     return bet, horse
 
@@ -145,46 +184,19 @@ def start_game():
     game_intro()
     display_players_and_odds(HORSES_RACING, HORSE_ODDS)
     print()
+    play_or_quit = check_choice_and_run()
+    return play_or_quit
 
-    choice = input('Would you like to bet? Type Yes to bet 💸, and No to just watch the game 🎬. (Type Yes or No): ').lower()
-    if choice == 'yes':
-        bet, horse = bet_placing()
-        winners = show_horserace(RACECOURSE_DISTANCE, HORSE_DISTANCE)
-        show_winning_horse(winners)
-        if horse in winners:
-            print(f'\033[1mCONGRATULATIONS!!! 🎉 {horse} WON THE RACE 🏆🎉')
-            odds = HORSE_ODDS[horse]
-            payout = bet * odds
-            print(f'You won ${payout} 💰💸')
-        else:
-            print(f'''Unfortunately {horse} did not win, and you lost your money. 😞💸
-                  ''')
-            time.sleep(1)
-            print('''Hope you enjoyed the race though 😊😊😊
-                  ''')
-        restart_or_quit = input('''Click ENTER to restart 🔄, or any other key to end the game ⛔: 
-''')
-        return restart_or_quit
-    elif choice == 'no':
-        print('''You chose to watch the race without betting. 👀
-              ''')
-        winners = show_horserace(RACECOURSE_DISTANCE, HORSE_DISTANCE)
-        show_winning_horse(winners)
-        print("Thanks for watching the race! 🎥")
-        restart_or_quit = input('''Click ENTER to restart 🔄, or any other key to end the game ⛔: 
-                                ''')
-        return restart_or_quit
-    else:
-        print("Invalid input! Please try again. ❌")
-        return start_game()
+
 
 def main():
     """
     Main function to keep the game running until the player chooses to quit.
     """
-    while True:
-        players_choice = start_game()
-        if players_choice != '':
-            break
+    players_choice = start_game()
+    if players_choice == '':
+        return start_game()
+    else:
+        print('\nThank you for playing 🎉!!!')
 
 main()
