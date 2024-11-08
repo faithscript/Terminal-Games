@@ -13,12 +13,12 @@ HORSE_DISTANCE = { # Tracks each horse's progress in the race
                  }
 
 HORSE_ODDS =     { # Odds for each horse, used to calculate payout
-                 'Thunderhoof': 1.5, 'Royal Stride': 3.0, 'Storm Chaser': 2.5,
-                 'Noble Steed': 3.5, 'Midnight Runner': 4.0, 'Neigh Slayer': 3.5
+                 'Thunderhoof': 1.75, 'Royal Stride': 1.85, 'Storm Chaser': 2.00,
+                 'Noble Steed': 1.80, 'Midnight Runner': 2.1, 'Neigh Slayer': 1.9
                  }
 
 # Constants for the race and betting limits
-RACECOURSE_DISTANCE = 50
+RACECOURSE_DISTANCE = 100
 MINIMUM_BET = 100
 MAXIMUM_BET = 5000
 
@@ -121,6 +121,7 @@ You have bet ${bet:.2f} 💵 on {horse} 🏇
            ''')
     return bet, horse
 
+# This function will simulate the movement of each horse, with movement being influenced by their odds.
 def show_horserace(course_distance, horse_distance):
     """
     Simulates the race by updating each horse's distance randomly.
@@ -144,9 +145,15 @@ The race is about to start on the count of 3 🏁
     # Create a copy to avoid changing the initial distances
     copy_distance = horse_distance.copy()
     distance_covered = list(copy_distance.values())
+    
     while max(distance_covered) < course_distance:
         for horse in copy_distance:
-            copy_distance[horse] += random.randint(1,3)
+            # Randomly adjust movement based on odds
+            # The lower the odds, the higher the random movement
+            speed = random.randint(1, 5)  # Base random speed
+            adjusted_speed = speed + (7 - int(HORSE_ODDS[horse] * 2))  # Adjust based on odds. More odds, less probable distance covered
+            adjusted_speed = max(1, adjusted_speed)  # Ensure at least 1 distance is covered
+            copy_distance[horse] += adjusted_speed
 
         # Display each horse's progress visually
         for horse, distance in copy_distance.items():
