@@ -1,5 +1,5 @@
 # 💫 About Me:
-🌟 I'm currently working on: a journaling/scheduling web app with sign-up and sign-in functionality.<br><br>🎓 Education: Computer Science freshman at UMD.<br><br>💻 Passion: I love using projects to learn any concept I'm taught, so enjoy these random personal projects! 😊
+🌟 I'm currently working on: a journaling/scheduling web app with sign-up and sign-in functionality.<br><br>🎓 Education: Computer Science freshman at UMD.<br><br>💻
 
 
 ## 🌐 Socials:
